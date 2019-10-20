@@ -144,6 +144,8 @@ def Hebcal_WebRequest() {
 
     def testDate = new Date()
 
+    def endEventDate = new Date()
+
     def hebcal_date
 
     def hebcal_category
@@ -205,6 +207,10 @@ def Hebcal_WebRequest() {
                     log.trace "Title ${hebcal_title[i]} Event Date: ${startEventDate}"
 
                     endEventDate = toDateTime(hebcal_date[i])
+
+                    //TODO: Parameterize Havdallah Increment
+
+                    endEventDate.minutes = endEventDate.minutes + 50
 
                     //Prod
 
