@@ -1,9 +1,10 @@
 /**
- *  HebcalModes
+ *  Shabbat and Holiday Times for Hubitat
  *
  *  Author: danielbarak@live.com
  *  Date: 2014-02-21
  *  Ported to Hubitat on 2019-10-02 by dannyzen@. See https://github.com/SmartThingsCommunity/SmartThingsPublic/blob/master/smartapps/shabbatholidaymode/shabbat-and-holiday-modes.src/shabbat-and-holiday-modes.groovy for original
+ *  5/31: Adding a Havdalah Offset with a default value of 50
  */
 
 // Automatically generated. Make future change here.
@@ -32,6 +33,9 @@ preferences {
     section("Your ZipCode") {
         input "zipcode", "text", title: "ZipCode", required: true
     }
+    section("Havdalah Offset: Time to add to sundown time in order to calculate Havdalah time (Default: 50)") {
+        input "havdalahOffset", "number", title: "Havdalah Offset", defaultValue: 50, required: false
+    }   
 }
 
 def installed() {
@@ -103,9 +107,6 @@ def Hebcal_WebRequest() {
                 else if (hebcal_category[i] == "havdalah") {
                     log.trace "Title ${hebcal_title[i]} Event Date: ${startEventDate}"
                     endEventDate = toDateTime(hebcal_date[i])
-                    //TODO: Parameterize Havdallah Increment
-                    //endEventDate.minutes = endEventDate.minutes + 50
-                    
                     //Prod
                     schedule(endEventDate, endChag)
                     //Testing
