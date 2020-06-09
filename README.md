@@ -33,6 +33,7 @@ FAQ
 So for a 2-3 day holiday, the mode change happens 
 daily or just once?
 * If it's a 2 day holiday, the mode will: 
+
 *Not change back to a non-holiday mode ("non-shabbat") at the end of the first day.  
 *Attempt to change to holiday mode the night of the first day, since Yom Tov starts for day 2, on the night of the first day.
 
