@@ -16,6 +16,7 @@ Recommended Practices
 * Consider creating a notification action when the mode changes to Shabbat. I toggle all the lights in my house at this time, it gives the family a friendly heads up.
 * For full-proof confidence: It's best to check the app's status' page during the day on Friday or erev Yom Tov to make sure setChag has been set. You can do this by going to the app configuration page and clicking the 'gear' icon. 
 * If for whatever reason the app fails to get candle lightning time, you can trigger it by changing & saving the zip code.
+* New June 2020: Virtual Device (Optional) has been added in case users want to trigger Rule Machine if shabbat time was not set. Useful for avoiding the situation when your realize your house is still online 2 minutes before candlelighting :) 
 
 How it works
 --
