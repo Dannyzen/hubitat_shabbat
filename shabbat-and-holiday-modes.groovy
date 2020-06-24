@@ -22,10 +22,6 @@ definition(
 )
 
 preferences {
-	page(name: "mainPage")
-}
-
-def mainPage() {
 
     section("At Candlelighting Change Mode To:")
             {
