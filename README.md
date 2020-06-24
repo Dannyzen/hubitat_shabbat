@@ -1,6 +1,6 @@
 # Hubitat Shabbat App
 
-Ported from smartthings to hubitat. Some known issues but generally does the job of automating Shabbat. I've been running it in 'production' and have had minimal problems.
+Uses the HebCal API to set a shabbat mode at the scheduled shabbat time for a given zip code.  
 
 Changelog
 --
