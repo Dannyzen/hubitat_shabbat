@@ -1,18 +1,19 @@
 /**
  *  Shabbat and Holiday Times for Hubitat
  *
- *  Author: danielbarak@live.com
- *  Date: 2014-02-21
+ *  OriginalAuthor: danielbarak@live.com
+ *  HubitatAuthor: @dannyzen
+ *  Date: 2020-06-23
  *  Ported to Hubitat on 2019-10-02 by dannyzen@. See https://github.com/SmartThingsCommunity/SmartThingsPublic/blob/master/smartapps/shabbatholidaymode/shabbat-and-holiday-modes.src/shabbat-and-holiday-modes.groovy for original
  *  5/31: Adding a Havdalah Offset with a default value of 50
+ *  6/23: Last Shabbos app failed to get time from Hebcal. Now adding in an optional switch to connect rule machine to in order to affirm Shabbos time is set
  */
 
-// Automatically generated. Make future change here.
 definition(
         name: "Shabbat and Holiday Modes",
         namespace: "ShabbatHolidayMode",
-        author: "danielbarak@live.com",
-        description: "Changes the mode at candle lighting and back after havdalah.  Uses the HebCal.com API to look for days that are shabbat or chag and pull real time candle lighting and havdalah times to change modes automatically",
+        author: "@dannyzen",
+        description: "Changes the mode at candle lighting and back after havdalah. Also allows for optoinal virtual device to turn on and off. Uses the HebCal.com API to look for days that are shabbat or chag and pull real time candle lighting and havdalah times to change modes automatically",
         category: "My Apps",
         iconUrl: "http://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Star_of_David.svg/200px-Star_of_David.svg.png",
         iconX2Url: "http://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Star_of_David.svg/200px-Star_of_David.svg.png",
@@ -21,6 +22,10 @@ definition(
 )
 
 preferences {
+	page(name: "mainPage")
+}
+
+def mainPage() {
 
     section("At Candlelighting Change Mode To:")
             {
@@ -35,7 +40,11 @@ preferences {
     }
     section("Havdalah Offset: Time to add to sundown time in order to calculate Havdalah time (Default: 50)") {
         input "havdalahOffset", "number", title: "Havdalah Offset", defaultValue: 50, required: false
-    }   
+    }
+	section("Optional Shabbat Switch: The switch will turn ON when shabbat or holiday time is properly set. Good for knowing if app _did or did not_ schedule Shabbat mode.") {
+			input "shabbatSwitch", "capability.switch", title: "Select a virtual switch", submitOnChange: true, required: false
+		}
+
 }
 
 def installed() {
@@ -52,13 +61,18 @@ def updated() {
 def initialize() {
     poll();
     schedule("0 0 8 * * ? *", poll)
+    if(shabbatSwitch) subscribe(shabbatSwitch, "switch", handler)
+}
+
+def handler(evt) {
+	log.info "$evt.device $evt.value"
 }
 
 //Check hebcal for today's candle lighting or havdalah
 def poll() {
-
     unschedule("endChag")
     unschedule("setChag")
+    if(shabbatSwitch) shabbatSwitch.off() // shabbat switch starts off
     Hebcal_WebRequest()
 
 }//END def poll()
@@ -70,6 +84,10 @@ def poll() {
 
 //This function is the web request and response parse
 import groovy.time.TimeCategory
+import hubitat.helper.RMUtils
+
+def rules = RMUtils.getRuleList()
+log.trace(rules)
 
 def Hebcal_WebRequest() {
 
@@ -97,6 +115,7 @@ def Hebcal_WebRequest() {
                     log.trace "Title ${hebcal_title[i]} Event Date: ${startEventDate}"
                     //Prod - Note 'eventDate'
                     schedule(startEventDate, setChag)
+                    if(shabbatSwitch) shabbatSwitch.on() // if we schedule setChag, we turn on the shabbat switch
 
                     //testing
                     testDate.seconds = today.seconds + 10
@@ -154,8 +173,11 @@ def endChag() {
     if (location.mode != endMode) {
         if (location.modes?.find { it.name == endMode }) {
             setLocationMode(endMode)
+            if(shabbatSwitch) shabbatSwitch.off() // If we end the chag, let's turn the shabbat switch off
         }//END if (location.modes?.find{it.name == endMode})
     }//END if (location.mode != endMode)
 
     unschedule("endChag")
+
 }//END def setChag()
+
