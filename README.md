@@ -5,7 +5,7 @@ Uses the HebCal API to set a shabbat mode at the scheduled shabbat time for a gi
 Changelog
 --
 
-* New June 2020: Virtual Device (Optional) has been added. If shabbat times are appropriately acquired at 8am, the device will turn on indicating the mode will change at shabbat time, but if the device is off after Friday at 8am, something is not working as it should and may need to be investigated.  Useful for rule machine triggered notifications that everything is going well. Also useful for avoiding the situation when your realize your house is still online 2 minutes before candlelighting :) 
+* New June 2020: Virtual Device (Optional) has been added. If shabbat times are appropriately acquired at 8am, the device will turn on indicating the mode will change at shabbat time, but if the device is off after Friday at 8am, something is not working as it should and may need to be investigated.  Useful for rule machine triggered notifications that everything is going well. Also useful for avoiding the situation when your realize your house is still online 2 minutes before candlelighting :) see [rule_machine_virtual_switch.png](rule_machine_virtual_switch.png)
 
 Supported Functionality
 --
