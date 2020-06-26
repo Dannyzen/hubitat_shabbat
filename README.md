@@ -24,7 +24,7 @@ Recommended Practices
 
 How it works
 --
-Every morning at 8am the app attempts to get candle lighting time for that day from hebcal.com. If candle lighting time is successfully obtained, the app runs the [setChag](https://github.com/Dannyzen/hubitat_shabbat/blob/master/shabbat-and-holiday-modes.groovy#L139) function for that time. This works great... most of the time (See Known Issues)
+Every morning at 8am the app attempts to get candle lighting time for that day from hebcal.com. If candle lighting time is successfully obtained, the app runs the [setChag](https://github.com/Dannyzen/hubitat_shabbat/blob/master/shabbat-and-holiday-modes.groovy#L155) function for that time. This works great... most of the time (See Known Issues)
 
 
 Known Issues
