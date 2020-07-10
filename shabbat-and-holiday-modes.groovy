@@ -56,7 +56,7 @@ def updated() {
 
 def initialize() {
     poll();
-    schedule("0 0 8 * * ? *", poll)
+    schedule("0 0/3 * * ?", poll)
     if(shabbatSwitch) subscribe(shabbatSwitch, "switch", handler)
 }
 

@@ -5,7 +5,8 @@ Uses the HebCal API to set a shabbat mode at the scheduled shabbat time for a gi
 Changelog
 --
 
-* New June 2020: Virtual Device (Optional) has been added. If shabbat times are appropriately acquired at 8am, the device will turn on indicating the mode will change at shabbat time, but if the device is off after Friday at 8am, something is not working as it should and may need to be investigated.  Useful for rule machine triggered notifications that everything is going well. Also useful for avoiding the situation when your realize your house is still online 2 minutes before candlelighting :) see [rule_machine_virtual_switch.png](rule_machine_virtual_switch.png)
+* New July 2020: Changed candelighting times to acquired every 3 hours
+* New June 2020: Virtual Device (Optional) has been added. If shabbat times are appropriately acquired at 8am (changed July 2020, see changelog), the device will turn on indicating the mode will change at shabbat time, but if the device is off after Friday at 8am, something is not working as it should and may need to be investigated.  Useful for rule machine triggered notifications that everything is going well. Also useful for avoiding the situation when your realize your house is still online 2 minutes before candlelighting :) see [rule_machine_virtual_switch.png](rule_machine_virtual_switch.png)
 
 Supported Functionality
 --
@@ -24,13 +25,13 @@ Recommended Practices
 
 How it works
 --
-Every morning at 8am the app attempts to get candle lighting time for that day from hebcal.com. If candle lighting time is successfully obtained, the app runs the [setChag](https://github.com/Dannyzen/hubitat_shabbat/blob/master/shabbat-and-holiday-modes.groovy#L155) function for that time. This works great... most of the time (See Known Issues)
+Every 3 hours the app attempts to get candle lighting time for that day from hebcal.com. If candle lighting time is successfully obtained, the app runs the [setChag](https://github.com/Dannyzen/hubitat_shabbat/blob/master/shabbat-and-holiday-modes.groovy#L155) function for that time. This works great... most of the time (See Known Issues)
 
 
 Known Issues
 --
-* Candle lightning time takes place during Chanukkah and the app pulls those times down. So, when it's Chanukkah time, Shabbat mode does initiate. (I don't have time to work around this but welcome community help!)
-* If the 8am hebcal API call fails, the app won't pull shabbat time. 
+* Candle lightning time takes place during Chanukkah and the app pulls those times down. So, when it's Chanukkah time, Shabbat mode _does initiate_. (I don't have time to work around this but welcome community help!)
+* If the every 3 hour attempt to hebcal API call fails, the app won't pull shabbat time. 
 
 FAQ
 --
@@ -40,7 +41,9 @@ daily or just once?
 * If it's a 2 day holiday, the mode will: 
 
 *Not change back to a non-holiday mode ("non-shabbat") at the end of the first day.  
+
 *Attempt to change to holiday mode the night of the first day, since Yom Tov starts for day 2, on the night of the first day.
 
 Does your app distinguish between Yom Tov and non-restrictive dates, like chol hamoed/Purim, etc?
+
 * Theoretically, it can, because hebcal provides this data, at this time it does not because I haven't had a good enough reason to put time into it. Community help welcomed to make this happen.
